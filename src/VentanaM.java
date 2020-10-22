@@ -1,3 +1,6 @@
+
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,13 +13,25 @@
  */
 public class VentanaM extends javax.swing.JFrame {
 
+    DefaultTableModel m;
     /**
      * Creates new form VentanaM
      */
+    
     public VentanaM() {
         initComponents();
         
         this.setLocationRelativeTo(null);
+        this.setTitle("Agenda");
+        this.setResizable(false);
+        
+        m = new DefaultTableModel();
+        m.addColumn("Nombre(s)");
+        m.addColumn("Apellido Paterno");
+        m.addColumn("Apellido Materno");
+        m.addColumn("Sexo");
+        m.addColumn("Teléfono");
+        this.tblAgenda.setModel(m);
         
     }
 
@@ -32,23 +47,24 @@ public class VentanaM extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtAPaterno = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        txtAMaterno = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         jButton2 = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         telefono = new javax.swing.JFormattedTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbSexo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
+        tblAgenda = new javax.swing.JTable();
+        btnAgregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,7 +74,7 @@ public class VentanaM extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre(s):");
         jDesktopPane1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 80, -1));
-        jDesktopPane1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 190, -1));
+        jDesktopPane1.add(txtAPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 190, -1));
 
         jLabel2.setFont(new java.awt.Font("Noto Sans Oriya", 0, 13)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -70,8 +86,8 @@ public class VentanaM extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("REGISTRAR PERSONA EN AGENDA");
         jDesktopPane1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, -1, -1));
-        jDesktopPane1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 170, -1));
-        jDesktopPane1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 190, -1));
+        jDesktopPane1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 170, -1));
+        jDesktopPane1.add(txtAMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 190, -1));
 
         jLabel4.setFont(new java.awt.Font("Noto Sans Oriya", 0, 13)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -103,8 +119,22 @@ public class VentanaM extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton2);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
-        jButton1.setText("Borrar");
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/delete.png"))); // NOI18N
+        btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnBorrar);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Ayuda.png"))); // NOI18N
+        jButton1.setText("Ayuda");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton1);
 
         jDesktopPane1.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, -1));
@@ -122,14 +152,14 @@ public class VentanaM extends javax.swing.JFrame {
         }
         jDesktopPane1.add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 130, -1));
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setFont(new java.awt.Font("Mont", 1, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona Sexo...", "Masculino", "Femenino" }));
-        jDesktopPane1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 190, -1));
+        cmbSexo.setBackground(new java.awt.Color(255, 255, 255));
+        cmbSexo.setFont(new java.awt.Font("Mont", 1, 14)); // NOI18N
+        cmbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona Sexo...", "Masculino", "Femenino" }));
+        jDesktopPane1.add(cmbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 190, -1));
 
-        jTable1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
-        jTable1.setFont(new java.awt.Font("Mont", 1, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAgenda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        tblAgenda.setFont(new java.awt.Font("Mont", 1, 14)); // NOI18N
+        tblAgenda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -137,13 +167,18 @@ public class VentanaM extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblAgenda);
 
         jDesktopPane1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 530, 200));
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
-        jButton4.setText("Agregar");
-        jDesktopPane1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, -1, -1));
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/add.png"))); // NOI18N
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+        jDesktopPane1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -162,6 +197,35 @@ public class VentanaM extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        int fila = tblAgenda.getRowCount();
+        for (int i = fila-1; i >= 0; i--) {
+            m.removeRow(i);
+        }
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        String []info = new String[5];
+        info[0] = txtNombre.getText();
+        info[1] = txtAPaterno.getText();
+        info[2] = txtAMaterno.getText();
+        info[3] = cmbSexo.getSelectedItem().toString();
+        info[4] = telefono.getText();
+        
+        m.addRow(info);
+        
+        txtNombre.setText("");
+        txtAPaterno.setText("");
+        txtAMaterno.setText("");
+        cmbSexo.setSelectedIndex(0);
+        telefono.setText("");
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Dialogo ayuda = new Dialogo(this, true);
+        ayuda.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,11 +263,12 @@ public class VentanaM extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBorrar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cmbSexo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -213,11 +278,11 @@ public class VentanaM extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable tblAgenda;
     private javax.swing.JFormattedTextField telefono;
+    private javax.swing.JTextField txtAMaterno;
+    private javax.swing.JTextField txtAPaterno;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
